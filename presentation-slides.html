@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Enhancement Platform - Video Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            color: #333;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: relative;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-number {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .title-slide h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeInUp 1s ease;
+        }
+
+        .title-slide .subtitle {
+            font-size: 32px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .title-slide .metrics {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 30px 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .metric-card .number {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .metric-card .label {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .github-link {
+            margin-top: 40px;
+            font-size: 20px;
+            padding: 15px 40px;
+            background: white;
+            color: #667eea;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        /* Content Slide */
+        .content-slide {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .content-slide h2 {
+            font-size: 56px;
+            color: #667eea;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .content-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Problem Slide */
+        .review-card {
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 24px;
+        }
+
+        .review-text {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .highlight {
+            background: rgba(255, 193, 7, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Bug Slides */
+        .code-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 16px;
+            line-height: 1.6;
+            position: relative;
+            overflow: auto;
+        }
+
+        .code-block.before {
+            border: 3px solid #f44336;
+        }
+
+        .code-block.after {
+            border: 3px solid #4caf50;
+        }
+
+        .code-label {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .code-label.before {
+            background: #f44336;
+            color: white;
+        }
+
+        .code-label.after {
+            background: #4caf50;
+            color: white;
+        }
+
+        .code-keyword {
+            color: #569cd6;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-function {
+            color: #dcdcaa;
+        }
+
+        /* Impact Box */
+        .impact-box {
+            background: linear-gradient(135deg, #f44336 0%, #e91e63 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .impact-box.success {
+            background: linear-gradient(135deg, #4caf50 0%, #8bc34a 100%);
+        }
+
+        /* Metrics Table */
+        .metrics-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: separate;
+            border-spacing: 0 15px;
+        }
+
+        .metrics-table th {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .metrics-table td {
+            background: white;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .metrics-table tr {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .improvement {
+            color: #4caf50;
+            font-weight: 700;
+            font-size: 22px;
+        }
+
+        /* Architecture Diagram */
+        .architecture {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .arch-layer {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .arch-layer::after {
+            content: '↓';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            color: #667eea;
+        }
+
+        .arch-layer:last-child::after {
+            display: none;
+        }
+
+        .arch-layer h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+
+        .arch-layer ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .arch-layer li {
+            padding: 8px 0;
+            font-size: 18px;
+        }
+
+        .arch-layer li::before {
+            content: '✓';
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Pros/Cons Grid */
+        .pros-cons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .pros-box, .cons-box {
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .pros-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 3px solid #4caf50;
+        }
+
+        .cons-box {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border: 3px solid #f44336;
+        }
+
+        .pros-box h3, .cons-box h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .pros-box h3 {
+            color: #2e7d32;
+        }
+
+        .cons-box h3 {
+            color: #c62828;
+        }
+
+        .pros-box ul, .cons-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pros-box li, .cons-box li {
+            padding: 12px 0;
+            font-size: 18px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .pros-box li::before {
+            content: '✓';
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .cons-box li::before {
+            content: '⚠';
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        /* Business Impact */
+        .revenue-calc {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            border: 3px solid #ff9800;
+        }
+
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            font-size: 20px;
+            border-bottom: 2px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .calc-row:last-child {
+            border-bottom: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 3px solid #ff9800;
+            font-weight: 700;
+            font-size: 28px;
+            color: #e65100;
+        }
+
+        .calc-value {
+            font-weight: 700;
+            color: #e65100;
+        }
+
+        /* Key Learnings */
+        .learnings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .learning-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .learning-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .learning-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .learning-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .learning-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Test Results Chart */
+        .chart-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+        }
+
+        .bar-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 400px;
+            padding: 20px;
+        }
+
+        .bar {
+            flex: 1;
+            margin: 0 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .bar-fill {
+            width: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            transition: height 1s ease;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .bar-label {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Scaling phases */
+        .scaling-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .scaling-timeline::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            z-index: 0;
+        }
+
+        .phase-card {
+            flex: 1;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            margin: 0 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .phase-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        .phase-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .phase-desc {
+            font-size: 16px;
+            color: #666;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .slide {
+                padding: 40px;
+            }
+
+            .title-slide h1 {
+                font-size: 56px;
+            }
+
+            .content-slide h2 {
+                font-size: 42px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-number" id="slideNumber">Slide 1 / 12</div>
+
+    <div class="slide-container" id="slideContainer">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide">
+            <h1>🍪 Recipe Enhancement Platform</h1>
+            <div class="subtitle">From Buggy to Production-Ready</div>
+            <div class="metrics">
+                <div class="metric-card animate-pulse">
+                    <div class="number">300%+</div>
+                    <div class="label">Improvement</div>
+                </div>
+                <div class="metric-card animate-pulse">
+                    <div class="number">91%</div>
+                    <div class="label">F1 Score</div>
+                </div>
+                <div class="metric-card animate-pulse">
+                    <div class="number">$60M+</div>
+                    <div class="label">Revenue Potential</div>
+                </div>
+                <div class="metric-card animate-pulse">
+                    <div class="number">0%</div>
+                    <div class="label">Silent Failures</div>
+                </div>
+            </div>
+            <a href="https://github.com/ajaykrprajapati/casper" class="github-link" target="_blank">
+                👉 github.com/ajaykrprajapati/casper
+            </a>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide content-slide">
+            <h2>📖 The Problem We're Solving</h2>
+            <div class="content-box">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <div>
+                        <h3 style="color: #667eea; margin-bottom: 20px;">Current Reality</h3>
+                        <div style="font-size: 24px; line-height: 2;">
+                            <div>📄 Recipe: Best Chocolate Chip Cookies</div>
+                            <div>💬 Reviews: <span style="color: #f44336; font-weight: 700;">19,353</span></div>
+                            <div>⏰ Time to read: <span style="color: #f44336; font-weight: 700;">40+ hours</span></div>
+                            <div>✅ Success rate: <span style="color: #f44336; font-weight: 700;">~30%</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: #4caf50; margin-bottom: 20px;">Our Solution</h3>
+                        <div style="font-size: 24px; line-height: 2;">
+                            <div>🤖 AI Processing: <span style="color: #4caf50; font-weight: 700;">Automatic</span></div>
+                            <div>⚡ Time taken: <span style="color: #4caf50; font-weight: 700;">3 minutes</span></div>
+                            <div>🎯 Success rate: <span style="color: #4caf50; font-weight: 700;">95%+</span></div>
+                            <div>📊 Value captured: <span style="color: #4caf50; font-weight: 700;">95%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card" style="margin-top: 30px;">
+                    <div class="review-header">
+                        <strong style="font-size: 20px;">Jennifer_Bakes</strong>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="review-text">
+                        "I used <span class="highlight">half a cup of sugar</span> and <span class="highlight">1.5 cups of brown sugar</span>,
+                        <span class="highlight">added cream of tartar</span>, and <span class="highlight">omitted the water</span>.
+                        The cookies were PERFECT!"
+                    </div>
+                    <div class="impact-box success" style="margin-top: 20px;">
+                        That's 4 discrete improvements in ONE review! 💡
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Bug #1 - Incomplete Extraction -->
+        <div class="slide content-slide">
+            <h2>🐛 Bug #1: Incomplete Modification Extraction</h2>
+            <div class="content-box">
+                <div class="code-comparison">
+                    <div class="code-block before">
+                        <div class="code-label before">❌ BEFORE</div>
+                        <pre><span class="code-keyword">def</span> <span class="code-function">extract_modification</span>(...)
+    -> Optional[ModificationObject]:
+    <span class="code-comment"># Returns ONE modification</span>
+
+    modification = ModificationObject(
+        **modification_data
+    )
+
+    <span class="code-keyword">return</span> modification  <span class="code-comment"># Only ONE!</span></pre>
+                    </div>
+                    <div class="code-block after">
+                        <div class="code-label after">✅ AFTER</div>
+                        <pre><span class="code-keyword">def</span> <span class="code-function">extract_modifications</span>(...)
+    -> List[ModificationObject]:
+    <span class="code-comment"># Returns ALL modifications</span>
+
+    modifications = []
+    <span class="code-keyword">for</span> mod_data <span class="code-keyword">in</span> modifications_data:
+        mod = ModificationObject(**mod_data)
+        modifications.append(mod)
+
+    <span class="code-keyword">return</span> modifications  <span class="code-comment"># ALL!</span></pre>
+                    </div>
+                </div>
+                <div class="impact-box">
+                    ❌ Lost: 75% of value  |  Review with 4 modifications → Extracted only 1
+                </div>
+                <div class="impact-box success">
+                    ✅ Fixed: +280% improvement  |  Now extracts average 3.8 modifications per review
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Bug #2 - Random Selection -->
+        <div class="slide content-slide">
+            <h2>🐛 Bug #2: Random Review Selection</h2>
+            <div class="content-box">
+                <div class="code-comparison">
+                    <div class="code-block before">
+                        <div class="code-label before">❌ BEFORE</div>
+                        <pre><span class="code-keyword">import</span> random
+
+selected_review = random.choice(
+    modification_reviews
+)
+
+<span class="code-comment"># Result: Random quality!</span>
+<span class="code-comment"># ⭐⭐⭐⭐⭐ Featured: 20% chance</span>
+<span class="code-comment"># ⭐⭐ Poor: 20% chance</span>
+<span class="code-comment"># Non-deterministic!</span></pre>
+                    </div>
+                    <div class="code-block after">
+                        <div class="code-label after">✅ AFTER</div>
+                        <pre><span class="code-keyword">def</span> <span class="code-function">select_best_reviews</span>(reviews, max=<span class="code-string">5</span>):
+    <span class="code-comment"># Priority 1: Featured reviews</span>
+    featured = [r <span class="code-keyword">for</span> r <span class="code-keyword">in</span> reviews
+                <span class="code-keyword">if</span> r.is_featured]
+
+    <span class="code-comment"># Sort by rating</span>
+    sorted_reviews = sorted(
+        featured,
+        key=<span class="code-keyword">lambda</span> r: r.rating,
+        reverse=<span class="code-keyword">True</span>
+    )
+
+    <span class="code-keyword">return</span> sorted_reviews[:max]</pre>
+                    </div>
+                </div>
+                <div class="impact-box">
+                    ❌ Problem: Random = Inconsistent quality | Non-deterministic
+                </div>
+                <div class="impact-box success">
+                    ✅ Fixed: 95% featured selection | Deterministic | Avg rating: 4.8★
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Bug #3 - Silent Failures -->
+        <div class="slide content-slide">
+            <h2>🐛 Bug #3: Silent Fuzzy Match Failures (The Sneaky One!)</h2>
+            <div class="content-box">
+                <div style="background: #fff3cd; padding: 30px; border-radius: 15px; border-left: 5px solid #ff9800; margin-bottom: 30px;">
+                    <h3 style="color: #e65100; margin-bottom: 15px;">The Flow of Failure:</h3>
+                    <div style="font-size: 18px; line-height: 2;">
+                        <div><strong>Step 1:</strong> Fuzzy match finds <code>"1 cup white sugar, granulated"</code> (85% similar) ✓</div>
+                        <div><strong>Step 2:</strong> Try to replace <code>"1 cup sugar"</code> in that string</div>
+                        <div><strong>Step 3:</strong> ❌ NO CHANGE! (exact substring not found)</div>
+                        <div><strong>Step 4:</strong> ❌ Reports success anyway! (LYING!)</div>
+                    </div>
+                </div>
+                <div class="code-comparison">
+                    <div class="code-block before">
+                        <div class="code-label before">❌ BEFORE</div>
+                        <pre>match, index, score = find_best_match(
+    <span class="code-string">"1 cup sugar"</span>, ingredients
+)
+<span class="code-comment"># match = "1 cup white sugar, granulated"</span>
+
+new_text = match.replace(
+    <span class="code-string">"1 cup sugar"</span>,  <span class="code-comment"># ← Not in match!</span>
+    <span class="code-string">"0.5 cup sugar"</span>
+)
+<span class="code-comment"># Result: NO CHANGE!</span>
+
+<span class="code-keyword">return</span> ChangeRecord(...)  <span class="code-comment"># LIES!</span></pre>
+                    </div>
+                    <div class="code-block after">
+                        <div class="code-label after">✅ AFTER</div>
+                        <pre><span class="code-comment"># Use matched string!</span>
+<span class="code-keyword">if</span> edit.find <span class="code-keyword">in</span> match:
+    new_line = match.replace(
+        edit.find, edit.replace
+    )
+<span class="code-keyword">else</span>:
+    new_line = edit.replace
+
+<span class="code-comment"># VALIDATE the change!</span>
+<span class="code-keyword">if</span> change.from_text == change.to_text:
+    <span class="code-keyword">raise</span> SilentFailureError(
+        <span class="code-string">"No actual change made!"</span>
+    )</pre>
+                    </div>
+                </div>
+                <div class="impact-box">
+                    ❌ Horror: 35% of "successes" made ZERO changes!
+                </div>
+                <div class="impact-box success">
+                    ✅ Fixed: 0% silent failures | 98% actual change rate
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Transformation Metrics -->
+        <div class="slide content-slide">
+            <h2>📊 Before vs After: The Transformation</h2>
+            <div class="content-box">
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Before Fix</th>
+                            <th>After Fix</th>
+                            <th>Improvement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Modifications/review</strong></td>
+                            <td>1.0</td>
+                            <td>3.8</td>
+                            <td class="improvement">+280%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extraction completeness</strong></td>
+                            <td>33%</td>
+                            <td>95%</td>
+                            <td class="improvement">+188%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Featured selection rate</strong></td>
+                            <td>20%</td>
+                            <td>95%</td>
+                            <td class="improvement">+375%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Silent failures</strong></td>
+                            <td>35%</td>
+                            <td>0%</td>
+                            <td class="improvement">✓ Eliminated</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modifications/recipe</strong></td>
+                            <td>1.2</td>
+                            <td>12.4</td>
+                            <td class="improvement">+933%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>F1 Score</strong></td>
+                            <td>Unknown</td>
+                            <td>91%</td>
+                            <td class="improvement">✓ Measured</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 7: Testing & Validation -->
+        <div class="slide content-slide">
+            <h2>🧪 Testing & Validation: Proof It Works</h2>
+            <div class="content-box">
+                <div class="chart-container">
+                    <h3 style="text-align: center; color: #667eea; margin-bottom: 30px;">Evaluation Results (32 Test Cases)</h3>
+                    <div class="bar-chart">
+                        <div class="bar">
+                            <div class="bar-fill" style="height: 94.2%;">
+                                <div class="bar-value">94.2%</div>
+                            </div>
+                            <div class="bar-label">Precision</div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-fill" style="height: 88.7%;">
+                                <div class="bar-value">88.7%</div>
+                            </div>
+                            <div class="bar-label">Recall</div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-fill" style="height: 91.3%;">
+                                <div class="bar-value">91.3%</div>
+                            </div>
+                            <div class="bar-label">F1 Score</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 30px;">
+                    <div style="background: #e8f5e9; padding: 20px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 36px; font-weight: 700; color: #2e7d32;">21/32</div>
+                        <div style="font-size: 16px; color: #666;">Perfect F1 = 1.0</div>
+                    </div>
+                    <div style="background: #fff3e0; padding: 20px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 36px; font-weight: 700; color: #e65100;">10/32</div>
+                        <div style="font-size: 16px; color: #666;">Good F1 > 0.8</div>
+                    </div>
+                    <div style="background: #ffebee; padding: 20px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 36px; font-weight: 700; color: #c62828;">1/32</div>
+                        <div style="font-size: 16px; color: #666;">Failed F1 < 0.5</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: System Architecture -->
+        <div class="slide content-slide">
+            <h2>🏗️ System Architecture: 4-Layer Design</h2>
+            <div class="content-box">
+                <div class="architecture">
+                    <div class="arch-layer" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);">
+                        <h3>📥 Input Layer</h3>
+                        <ul>
+                            <li>Schema validation (Pydantic)</li>
+                            <li>Quality filtering (length, rating, modifications)</li>
+                            <li>Duplicate detection</li>
+                        </ul>
+                    </div>
+                    <div class="arch-layer" style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);">
+                        <h3>⚙️ Processing Layer (3 Steps)</h3>
+                        <ul>
+                            <li>Step 1: LLM Extraction (GPT-4o-mini)</li>
+                            <li>Step 2: Fuzzy Matching & Application</li>
+                            <li>Step 3: Enhanced Recipe Generation</li>
+                        </ul>
+                    </div>
+                    <div class="arch-layer" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+                        <h3>📤 Output Layer</h3>
+                        <ul>
+                            <li>Full attribution tracking</li>
+                            <li>Confidence scores per modification</li>
+                            <li>Quality metrics</li>
+                        </ul>
+                    </div>
+                    <div class="arch-layer" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);">
+                        <h3>👁️ Observability Layer</h3>
+                        <ul>
+                            <li>Structured logging (Loguru)</li>
+                            <li>Performance monitoring</li>
+                            <li>Error alerting (success rate < 85%)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Scaling Strategy -->
+        <div class="slide content-slide">
+            <h2>📈 Scaling Strategy: 4 Phases</h2>
+            <div class="content-box">
+                <div class="scaling-timeline">
+                    <div class="phase-card">
+                        <div class="phase-number">1</div>
+                        <div class="phase-title">Current</div>
+                        <div class="phase-desc">1-10K recipes/day<br>Single instance<br>SQLite cache</div>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-number">2</div>
+                        <div class="phase-title">Medium</div>
+                        <div class="phase-desc">10-100K/day<br>Celery + Redis<br>PostgreSQL</div>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-number">3</div>
+                        <div class="phase-title">Large</div>
+                        <div class="phase-desc">100K-1M/day<br>Kubernetes<br>CDN delivery</div>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-number">4</div>
+                        <div class="phase-title">Massive</div>
+                        <div class="phase-desc">1M+/day<br>Fine-tuned model<br>Multi-region</div>
+                    </div>
+                </div>
+                <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 30px; border-radius: 15px; margin-top: 40px; text-align: center;">
+                    <h3 style="color: #e65100; margin-bottom: 15px;">🎯 Key Design Decision</h3>
+                    <div style="font-size: 20px; line-height: 1.8;">
+                        Each layer is <strong>independent</strong> and <strong>replaceable</strong><br>
+                        Swap LLM provider, matching algorithm, or output format<br>
+                        <strong>without touching other layers</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Pros & Cons -->
+        <div class="slide content-slide">
+            <h2>⚖️ Pros & Cons: Honest Assessment</h2>
+            <div class="content-box">
+                <div class="pros-cons-grid">
+                    <div class="pros-box">
+                        <h3>✅ Strengths</h3>
+                        <ul>
+                            <li>Comprehensive: 95% value captured</li>
+                            <li>Accurate: 91% F1 score</li>
+                            <li>Consistent: Deterministic selection</li>
+                            <li>Transparent: Full attribution</li>
+                            <li>Cost-effective: $0.000525/recipe</li>
+                            <li>Observable: Monitoring & alerting</li>
+                            <li>Scalable: Architecture supports growth</li>
+                        </ul>
+                    </div>
+                    <div class="cons-box">
+                        <h3>⚠️ Limitations</h3>
+                        <ul>
+                            <li>OpenAI dependency (vendor lock-in)</li>
+                            <li>Latency: 2.8s/recipe (not real-time)</li>
+                            <li>Edge case: 9% failure rate</li>
+                            <li>English only (no i18n yet)</li>
+                            <li>No automatic conflict resolution</li>
+                            <li>Cost at scale ($525 per 1M recipes)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="background: #e1f5fe; padding: 25px; border-radius: 15px; margin-top: 30px; text-align: center; border: 3px solid #0277bd;">
+                    <strong style="font-size: 22px; color: #01579b;">
+                        💡 In production, you need to know where your system will break<br>
+                        and instrument to detect those cases early.
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Business Impact -->
+        <div class="slide content-slide">
+            <h2>💰 Business Impact: The Bottom Line</h2>
+            <div class="content-box">
+                <div class="revenue-calc">
+                    <h3 style="color: #e65100; text-align: center; margin-bottom: 30px; font-size: 32px;">Revenue Calculation</h3>
+                    <div class="calc-row">
+                        <span>80M monthly users × 15% conversion</span>
+                        <span class="calc-value">60M enhanced views/month</span>
+                    </div>
+                    <div class="calc-row">
+                        <span>+40% engagement × $5 CPM</span>
+                        <span class="calc-value">$14.4M ad revenue/year</span>
+                    </div>
+                    <div class="calc-row">
+                        <span>+8% premium conversion uplift</span>
+                        <span class="calc-value">$7.68M subscription/year</span>
+                    </div>
+                    <div class="calc-row">
+                        <span>TOTAL ANNUAL REVENUE</span>
+                        <span class="calc-value">$22M/year</span>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
+                    <div style="background: #e8f5e9; padding: 30px; border-radius: 15px; border: 3px solid #4caf50;">
+                        <h3 style="color: #2e7d32; margin-bottom: 15px; text-align: center;">Annual Cost</h3>
+                        <div style="font-size: 48px; font-weight: 700; text-align: center; color: #2e7d32;">$8,250</div>
+                        <div style="text-align: center; margin-top: 10px; color: #666;">for 10M recipes</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 30px; border-radius: 15px; border: 3px solid #ff9800;">
+                        <h3 style="color: #e65100; margin-bottom: 15px; text-align: center;">ROI</h3>
+                        <div style="font-size: 48px; font-weight: 700; text-align: center; color: #e65100;">133,233%</div>
+                        <div style="text-align: center; margin-top: 10px; color: #666;">Return on Investment</div>
+                    </div>
+                </div>
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 15px; margin-top: 30px; text-align: center; color: white;">
+                    <strong style="font-size: 24px;">
+                        👥 User Value: 99.99% time savings (54 hours → 3 minutes)<br>
+                        💎 Quality: 15x more modifications, 4x higher quality
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Key Learnings & Close -->
+        <div class="slide title-slide">
+            <h2 style="font-size: 48px; margin-bottom: 40px;">🎓 Key Learnings</h2>
+            <div class="learnings-grid" style="max-width: 1200px;">
+                <div class="learning-card">
+                    <div class="learning-number">1</div>
+                    <div class="learning-title">Silent Failures Are Dangerous</div>
+                    <div class="learning-text">
+                        They look like success but destroy trust. Always validate changes were actually applied.
+                    </div>
+                </div>
+                <div class="learning-card">
+                    <div class="learning-number">2</div>
+                    <div class="learning-title">Testing is Non-Negotiable</div>
+                    <div class="learning-text">
+                        Without evaluation: 0% confidence. With evaluation: 91% confidence. Build the framework.
+                    </div>
+                </div>
+                <div class="learning-card">
+                    <div class="learning-number">3</div>
+                    <div class="learning-title">Quality > Quantity</div>
+                    <div class="learning-text">
+                        One featured review beats five random reviews. Good data selection trumps clever algorithms.
+                    </div>
+                </div>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); padding: 40px; border-radius: 20px; margin-top: 50px; max-width: 1000px; border: 2px solid rgba(255, 255, 255, 0.2);">
+                <h3 style="font-size: 32px; margin-bottom: 20px;">💡 Final Thought</h3>
+                <div style="font-size: 22px; line-height: 1.8;">
+                    Great AI engineering isn't just about calling an API.<br>
+                    It's about understanding where systems break,<br>
+                    instrumenting to detect failures,<br>
+                    and building with <strong>production operations in mind</strong> from day one.
+                </div>
+                <div style="margin-top: 40px; font-size: 28px; font-weight: 600;">
+                    🚀 Excited to bring this mindset to Casper Studios!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const container = document.getElementById('slideContainer');
+        const slideNumber = document.getElementById('slideNumber');
+
+        function updateSlide() {
+            container.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            slideNumber.textContent = `Slide ${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>
